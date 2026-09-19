@@ -36,16 +36,45 @@ function App() {
     },
   ];
 
+  const[searchText,setSearchText] = useState("");
+  
+
+  function searchItem(event){
+     console.log(event.target);
+     console.log(event.type);
+     console.log(event.target.value);
+     setSearchText(event.target.value);
+    // searchValue = event.target.value;
+  }
+  console.log("Re-rendering the component App.jsx")
+
+  const filteredProductList = products.filter((product)=>{
+    return product.name.toLocaleLowerCase().includes(searchText.toLocaleLowerCase());
+  });
+
+  // let counter = 0;
+  function clickHandler(value){
+    setCounter((prevCounter) => prevCounter+value); //asyn
+    console.log(counter);
+  }
+
+  const [counter, setCounter] = useState(0);
+
   return (
     <>
       <Section>
         <h1>Welcome to my product listings</h1>
-        <input type="search" placeholder="Enter item name.." style={{
+        <button style={{margin:"0 auto", display:"block"}} onClick={()=>clickHandler(2)}>+
+        </button>
+        <p>Count : {counter}</p>
+        <input type="search" placeholder="Seach item.." style={{
           padding:"10px",
           margin: "10px",
           border : "3px solid #000000",
-          maxWidth: "300px",
-        }}/>
+          maxWidth: "300px"
+        }}
+        onChange={searchItem}
+        />
       </Section>
       
 
@@ -60,7 +89,7 @@ function App() {
         })}
       </div> */}
         <Section title="Featured-Products">
-          <ProductList key={products.id} products={products}/>
+          <ProductList products={filteredProductList}/>
         </Section>
 
         <Section title="About us">

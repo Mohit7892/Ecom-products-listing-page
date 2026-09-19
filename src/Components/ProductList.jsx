@@ -5,7 +5,7 @@ function ProductList({products}) {
   return (
     <div style={{ display: "flex", flexFlow: "row wrap", gap: "16px" }}>
       {products.map(function (product) {
-        return <ProductCards {...product} />;
+        return <ProductCards key={product.id}{...product} />;
       })}
     </div>
   );
