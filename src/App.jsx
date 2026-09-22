@@ -7,6 +7,7 @@ import ProductCards from "./Components/ProductCards";
 import ProductList from "./Components/ProductList";
 import Section from "./Components/Section";
 import Footer from "./Components/Footer";
+import OrderForm from "./Components/OrderForm";
 
 function App() {
   // products array of product objects
@@ -94,6 +95,10 @@ function App() {
 
         <Section title="About us">
           <Footer/>
+        </Section>
+
+        <Section title="Place Order">
+          <OrderForm/>
         </Section>
 
     </>
