@@ -1,9 +1,5 @@
 import { useState } from "react";
-import heroImg from "./assets/hero.png";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "./assets/vite.svg";
 import "./App.css";
-import ProductCards from "./Components/ProductCards";
 import ProductList from "./Components/ProductList";
 import Section from "./Components/Section";
 import Footer from "./Components/Footer";
@@ -13,7 +9,7 @@ function App() {
   // products array of product objects
   const products = [
     {
-      id : 1,
+      id: 1,
       name: "Wireless mouse",
       price: 1266,
       category: "Electronics",
@@ -21,7 +17,7 @@ function App() {
     },
 
     {
-      id : 2,
+      id: 2,
       name: "Wireless Keyboard",
       price: 3266,
       category: "Electronics",
@@ -29,7 +25,7 @@ function App() {
     },
 
     {
-      id : 3,
+      id: 3,
       name: "Laptop Stand",
       price: 6266,
       category: "Electronics",
@@ -37,70 +33,93 @@ function App() {
     },
   ];
 
-  const[searchText,setSearchText] = useState("");
-  
+  const [searchText, setSearchText] = useState("");
 
-  function searchItem(event){
-     console.log(event.target);
-     console.log(event.type);
-     console.log(event.target.value);
-     setSearchText(event.target.value);
+  function searchItem(event) {
+    console.log(event.target);
+    console.log(event.type);
+    console.log(event.target.value);
+    setSearchText(event.target.value);
     // searchValue = event.target.value;
   }
-  console.log("Re-rendering the component App.jsx")
+  console.log("Re-rendering the component App.jsx");
 
-  const filteredProductList = products.filter((product)=>{
-    return product.name.toLocaleLowerCase().includes(searchText.toLocaleLowerCase());
+  const filteredProductList = products.filter((product) => {
+    return product.name
+      .toLocaleLowerCase()
+      .includes(searchText.toLocaleLowerCase());
   });
 
   // let counter = 0;
-  function clickHandler(value){
-    setCounter((prevCounter) => prevCounter+value); //asyn
+  function clickHandler(value) {
+    setCounter((prevCounter) => prevCounter + value); //asyn
     console.log(counter);
   }
 
   const [counter, setCounter] = useState(0);
 
+  function onCartCount(quantity) {
+    setCounter((counter) => (counter = counter + quantity));
+  }
+
   return (
     <>
       <Section>
         <h1>Welcome to my product listings</h1>
-        <button style={{margin:"0 auto", display:"block"}} onClick={()=>clickHandler(2)}>+
-        </button>
-        <p>Count : {counter}</p>
-        <input type="search" placeholder="Seach item.." style={{
-          padding:"10px",
-          margin: "10px",
-          border : "3px solid #000000",
-          maxWidth: "300px"
-        }}
-        onChange={searchItem}
+        {/* <button
+          style={{ margin: "0 auto", display: "block" }}
+          onClick={() => clickHandler(2)}
+        >
+          +
+        </button> */}
+        <p
+          style={{
+            fontStyle: "italic",
+            fontWeight: "bold",
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
+          Cart count : {counter}
+          <img
+            style={{ maxWidth: "50px" }}
+            src="data:image/png;base64,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"
+          ></img>
+        </p>
+
+        <input
+          type="search"
+          placeholder="Seach item.."
+          style={{
+            padding: "10px",
+            margin: "10px",
+            border: "3px solid #000000",
+            maxWidth: "300px",
+          }}
+          onChange={searchItem}
         />
       </Section>
-      
 
       {/* <ProductCards {...product1}/> 
       <ProductCards {...product2}/>
       <ProductCards {...product3}/> */}
-
 
       {/* <div style={{ display: "flex", flexFlow: "row wrap", gap: "16px" }}>
         {products.map(function (product) {
           return <ProductCards {...product} />;
         })}
       </div> */}
-        <Section title="Featured-Products">
-          <ProductList products={filteredProductList}/>
-        </Section>
+      <Section title="Featured-Products">
+        <ProductList products={filteredProductList} onCartCount={onCartCount} />
+      </Section>
 
-        <Section title="About us">
-          <Footer/>
-        </Section>
+      <Section title="About us">
+        <Footer />
+      </Section>
 
-        <Section title="Place Order">
-          <OrderForm/>
-        </Section>
-
+      <Section title="Place Order">
+        <OrderForm />
+      </Section>
     </>
   );
 }
