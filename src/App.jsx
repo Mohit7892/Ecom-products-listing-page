@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import ProductList from "./Components/ProductList";
 import Section from "./Components/Section";
@@ -58,14 +58,32 @@ function App() {
 
   const [counter, setCounter] = useState(0);
 
+  //UseEffect --> to show loading once after mounting and then after every counter change
+  const [loading, setLoading] = useState(true);
+
+  useEffect(()=>{
+    setLoading(true);
+    console.log('Loading!');
+    setTimeout(function(){
+      console.log('Loading completed!!');
+      setLoading(false);
+    },2000);
+  },[counter]);
+
   function onCartCount(quantity) {
     setCounter((counter) => (counter = counter + quantity));
+  }
+
+  if(loading){
+    return (
+      <p>Loading...please wait!!</p>
+    );
   }
 
   return (
     <>
       <Section>
-        <h1>Welcome to my product listings</h1>
+        <h1>Welcome to Product Listings</h1>
         {/* <button
           style={{ margin: "0 auto", display: "block" }}
           onClick={() => clickHandler(2)}
